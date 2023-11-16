@@ -724,14 +724,14 @@ button {
     color: white;
     border-radius: 0.5em;
     border: 1px solid green;
-    font-size: 1em;
+    font-size: 1rem;
     padding-inline: 1em;
-    padding-block: 0.5em;
     min-width: 5em;
-    min-height: 2em;
     font-weight: 600;
     font-family: Ubuntu;
     cursor: pointer;
+    min-height: 2.22em;
+    line-height: 1.5;
 }
 
 button:hover:not(:disabled) {
@@ -748,10 +748,10 @@ button:disabled {
 
 input:not([type="radio"]) {
     padding-inline: 1em;
-    padding-block: 0.5em;
     border: 1px solid black;
     border-radius: 0.3em;
-    min-height: 2em;
+    min-height: 2.22em;
+    line-height: 1.5;
 }
 
 .button-group {
@@ -859,6 +859,11 @@ input[type="radio"]:hover::before {
     outline-offset: max(2px, 0.15em);
 }
 
+:focus + .toggle-button {
+    outline: max(2px, 0.15em) solid #ffa500;
+    outline-offset: max(2px, 0.15em);
+}
+
 .add-container {
     display: flex;
     flex-wrap: wrap;
@@ -900,6 +905,12 @@ li {
     display: block;
     margin: 1em 0;
     font-size: 1.5em;
+    width: 100%;
+}
+
+li > .toggle-button-with-label {
+    width: 100%;
+    justify-content: space-between;
 }
 
 .title {
@@ -917,7 +928,27 @@ li {
     font-size: 1rem;
 }
 
+.toggle-button-with-label {
+    display: flex;
+    gap: 1em;
+    position: relative;
+    align-items: center;
+}
+
+.hidden-toggle {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    opacity: 0;
+    width: 100%!important;
+    height: 100%;
+    position: absolute!important;
+}
+
 .toggle-button {
+    display: flex;
+    gap: 0.3em;
+    align-items: center;
     background: white;
     padding: 0.25rem;
     border: 0.25rem solid;
@@ -932,52 +963,51 @@ li {
     align-self: center;
 }
 
-.toggle-button[aria-checked="true"]:hover:not(:disabled) :first-child,
-.toggle-button[aria-checked="false"]:hover:not(:disabled) :last-child {
+.toggle-button > span {
+    padding: 0.3em;
+    border-radius: 0.2em;
+}
+
+.hidden-toggle:checked:hover:not(:disabled) + .toggle-button :first-child,
+.hidden-toggle:not(:checked):hover:not(:disabled) + .toggle-button :last-child {
     background-color: #30d935;
 }
 
-button.toggle-button:hover {
-    background-color: white;
-}
-
-button.toggle-button:disabled {
+.hidden-toggle:disabled + .toggle-button {
     border-color: #333333;
     background-color: grey;
 }
 
-.toggle-button[aria-checked="true"]:hover:not(:disabled) :first-child,
-.toggle-button[aria-checked="false"]:hover:not(:disabled) :last-child {
+.hidden-toggle:checked:hover:not(:disabled) + .toggle-button :first-child,
+.hidden-toggle:not(:checked):hover:not(:disabled) + .toggle-button :last-child {
     background-color: #30d935;
 }
 
-.toggle-button[aria-checked] span {
-    font-size: 1em;
-    font-weight: bold;
-    display: inline-block;
-    border-radius: 0.25rem;
-    padding: 0.3em;
-}
-
-.toggle-button[aria-checked="true"] :last-child,
-.toggle-button[aria-checked="false"] :first-child {
+.hidden-toggle:checked + .toggle-button :last-child,
+.hidden-toggle:not(:checked) + .toggle-button :first-child {
     color: #757373;
 }
 
-.toggle-button[aria-checked="true"] :first-child,
-.toggle-button[aria-checked="false"] :last-child {
+.hidden-toggle:checked + .toggle-button :first-child,
+.hidden-toggle:not(:checked) + .toggle-button :last-child {
     background-color: green;
+    font-weight: 700;
     border: 2px solid transparent;
     /* ↑ for WHCM users */
     color: white;
 }
 
-.toggle-button[aria-checked="true"]:disabled :first-child,
-.toggle-button[aria-checked="false"]:disabled :last-child {
+.hidden-toggle:checked:disabled + .toggle-button :first-child,
+.hidden-toggle:not(:checked):disabled + .toggle-button :last-child {
     background-color: #333333;
+    font-weight: 700;
     border: 2px solid transparent;
     /* ↑ for WHCM users */
     color: lightgrey;
+}
+
+.toggle-button-with-label > h1 {
+    background: red;
 }
 
 fieldset {
@@ -1004,10 +1034,6 @@ fieldset:disabled li label {
     border-top: 1px solid;
 }
 
-.options-list li label {
-    align-self: center;
-    margin-inline-end: 1em;
-}
 
 .options-list li:first-child {
     margin-top: 0;
@@ -1049,14 +1075,10 @@ form > label {
     flex-grow: 1;
 }
 
-main.popup-main > .toggle-button {
-    align-self: baseline;
-}
-
-main.popup-main h1 {
-    margin: 0;
-}
-
 main.popup-main fieldset {
     padding-bottom: 0;
+}
+
+.options-heading + .toggle-button-with-label {
+    align-self: flex-start;
 }
